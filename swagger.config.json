@@ -1,0 +1,13 @@
+{
+    "swagger": {
+        "outputDirectory": "./docs",
+        "entryFile": "./src/controllers/*.ts",
+        "securityDefinitions": {
+            "client secret": {
+                "type": "apiKey",
+                "name": "x-auth",
+                "in": "header"
+            }
+        }
+    }
+}

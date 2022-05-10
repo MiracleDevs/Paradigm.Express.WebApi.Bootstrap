@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "target": "es6",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "./out-tsc/tests/",
+        "baseUrl": ".",
+        "paths": {
+            "*": ["../node_modules/*"]
+        }
+    },
+    "include": ["./**/*.test.ts"]
+}

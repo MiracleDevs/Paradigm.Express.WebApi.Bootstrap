@@ -1,0 +1,19 @@
+{
+    "development": true,
+    "clientSecret": "",
+    "sessionTimeout": "1h",
+    "registrationTokenTimeout": "2h",
+    "recaptchaSecret": "",
+    "thidPartyConfig": {
+        "url": "",
+        "username": "",
+        "password": ""
+    },
+    "mailConfig": {
+        "username": "",
+        "password": "",
+        "host": "smtp.ethereal.email",
+        "port": 587,
+        "secure": false
+    }
+}
