@@ -23,19 +23,6 @@ export const userValidationSchema = {
             required: true,
         },
     },
-    birth_date: {
-        type: "date",
-        validations: {
-            required: true,
-            date: true,
-        },
-    },
-    gender: {
-        type: "text",
-        validations: {
-            required: true,
-        },
-    },
     address_1: {
         type: "text",
         validations: {
@@ -50,53 +37,6 @@ export const userValidationSchema = {
         validations: {
             required: true,
             tel: true,
-        },
-    },
-    card_name: {
-        type: "text",
-        validations: {
-            required: true,
-        },
-    },
-    card_number: {
-        type: "text",
-        validations: {
-            required: true,
-            creditCard: true,
-        },
-    },
-    card_expiration: {
-        name: "card_expiration",
-        type: "text",
-        validations: {
-            required: true,
-        },
-    },
-    billing_address_1: {
-        type: "text",
-        validations: {
-            required: true,
-        },
-    },
-    billing_address_2: {
-        type: "text",
-    },
-    billing_state: {
-        type: "text",
-        validations: {
-            required: true,
-        },
-    },
-    billing_zip_code: {
-        type: "text",
-        validations: {
-            required: true,
-        },
-    },
-    billing_city: {
-        type: "text",
-        validations: {
-            required: true,
         },
     },
     state: {
@@ -116,11 +56,5 @@ export const userValidationSchema = {
         validations: {
             required: true,
         },
-    },
-    locationId: {
-        type: "number",
-        validations: {
-            required: true,
-        },
-    },
+    }
 };
