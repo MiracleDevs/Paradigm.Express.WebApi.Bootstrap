@@ -60,7 +60,7 @@ docker run -it --rm -v docker_db_data:/source -v $(pwd)/destination:/destination
 
 After the command terminates, inside the destination directory will be a copy of the docker_db_data content, witch in this case should be a Mysql database, since is mapped to /var/lib/mysql on mysql service.
 
-other option is to run mysql-dump from the database container, this can be run from any directory and generates standar output, and can be redirected with a pipe (|) or stdout redirect (>> filename)
+other option is to run mysql-dump from the database container, this can be run from any directory and generates standard output, and can be redirected with a pipe (|) or stdout redirect (>> filename)
 
 ```
 docker exec -it docker_database_1 mysqldump -uroot -p${DATABASE_PASSWORD} --databases paradigm_api_db --skip-comments  | tee backup.sql
