@@ -1,7 +1,8 @@
 import { Configuration } from "../configuration/configuration";
-import { Injectable, DependencyLifeTime, DependencyContainer } from "@miracledevs/paradigm-web-di";
-import { IFilter, HttpContext, RoutingContext, ConfigurationBuilder } from "@miracledevs/paradigm-express-webapi";
+import { Injectable, DependencyLifeTime } from "@miracledevs/paradigm-web-di";
+import { IFilter, HttpContext, RoutingContext } from "@miracledevs/paradigm-express-webapi";
 import { UserRepository } from "../repositories/user.repository";
+import { RoleType } from "../entities/interfaces/role.interface";
 
 /**
  * Provides the means to filter requests that expose sensitive information.
@@ -12,11 +13,8 @@ import { UserRepository } from "../repositories/user.repository";
 @Injectable({ lifeTime: DependencyLifeTime.Scoped })
 export class AdminAuthFilter implements IFilter {
     constructor(
-        private readonly configurationBuilder: ConfigurationBuilder,
         private readonly userRepository: UserRepository,
-        private readonly dependencyContainer: DependencyContainer
     ) {
-        const configuration = configurationBuilder.build(Configuration);
     }
 
     async beforeExecute(httpContext: HttpContext, _: RoutingContext): Promise<void> {
@@ -35,7 +33,7 @@ export class AdminAuthFilter implements IFilter {
                 let userData = await this.userRepository.getByUsername(user);
                 const validPassword = userData.checkIfUnencryptedPasswordIsValid(pass);
 
-                if (!user || !pass || !validPassword || userData.roleId != 4) {
+                if (!user || !pass || !validPassword || userData.roleId != RoleType.Admin) {
                     throw new Error();
                 }
 

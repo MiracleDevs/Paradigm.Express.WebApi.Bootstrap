@@ -25,6 +25,7 @@ export class ClientSecretFilter implements IFilter {
         let jwtPayload;
 
         //Try to validate the token and get data
+        //Should we also save and check the token in the database?
         try {
             jwtPayload = <any>jwt.verify(token, this.jwt_secret);
             httpContext.response.locals.jwtPayload = jwtPayload;
