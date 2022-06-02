@@ -10,6 +10,7 @@ import { RoleController } from "./controllers/role.controller";
 import { AuthController } from "./controllers/auth.controller";
 import { ValidationController } from "./controllers/validation.controller";
 import { HealthController } from "./controllers/health.controller";
+import { PrimsaController } from "./controllers/prisma.controller";
 
 /**
  * Represents the api server application.
@@ -36,7 +37,7 @@ export class ParadigmApiServer extends ApiServer {
             .use(express.json())
             .listen(port, () => this.logger.debug(`Listening on: http://localhost:${port}`));
 
-        this.registerControllers([RoleController, AuthController, ValidationController, HealthController]);
+        this.registerControllers([RoleController, AuthController, ValidationController, HealthController, PrimsaController]);
 
         this.routing.ignoreClosedResponseOnFilters();
 

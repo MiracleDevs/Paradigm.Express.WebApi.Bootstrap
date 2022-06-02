@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `company`
 
 CREATE TABLE IF NOT EXISTS `role`
 (
-    `id`            INT NOT NULL,
+    `id`            INT AUTO_INCREMENT NOT NULL,
     `name`          VARCHAR(50) NOT NULL,
     `description`   TEXT,
 

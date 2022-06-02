@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model access_log {
+  id           Int      @id @default(autoincrement())
+  method       String   @db.VarChar(200)
+  message      String   @db.VarChar(200)
+  json         String   @db.Text
+  type         Int
+  creationDate DateTime @db.DateTime(0)
+  active       Int      @db.TinyInt
+  processId    String?  @db.VarChar(100)
+  division     Int?
+}
+
+model company {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique(map: "UX_Company_Name") @db.VarChar(50)
+  description String? @db.Text
+  user        user[]
+}
+
+model member_classes_log {
+  id              Int      @id @default(autoincrement())
+  roleId          String   @db.VarChar(50)
+  eventInstanceId Int
+  state           Int
+  json            String   @db.Text
+  creationDate    DateTime @db.DateTime(0)
+  lastUpdateDate  DateTime @db.DateTime(0)
+  classDate       DateTime @db.DateTime(0)
+  active          Int      @db.TinyInt
+
+  @@unique([roleId, eventInstanceId], map: "role_eventInstance_UNIQUE")
+}
+
+model phone_area_codes {
+  id       Int     @id @default(autoincrement())
+  areaCode Int?    @unique(map: "area_code_UNIQUE")
+  location String? @db.VarChar(45)
+  region   String? @db.VarChar(45)
+}
+
+model role {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique(map: "UX_Role_Name") @db.VarChar(50)
+  description String? @db.Text
+  user        user[]
+}
+
+model top_level_domains {
+  id   Int     @id @default(autoincrement())
+  name String? @unique(map: "name_UNIQUE") @db.VarChar(255)
+}
+
+model user {
+  id               Int      @id @default(autoincrement())
+  roleId           Int
+  companyId        Int
+  userName         String   @unique(map: "UX_User_UserName") @db.VarChar(200)
+  firstName        String   @db.VarChar(200)
+  lastName         String   @db.VarChar(200)
+  email            String   @db.VarChar(200)
+  registrationDate DateTime @db.DateTime(0)
+  passwordHash     String   @db.VarChar(200)
+  company          company  @relation(fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FX_User_Company")
+  role             role     @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FX_User_Role")
+
+  @@index([companyId], map: "FX_User_Company")
+  @@index([roleId], map: "FX_User_Role")
+}
