@@ -11,7 +11,7 @@ interface PrismaUpdateDTO {
     data: PrismaSetDTO,
 }
 
-interface PrismaDeleteDTO {
+interface PrismaIdDTO {
     id: number
 }
 
@@ -31,6 +31,29 @@ export class PrimsaController extends ApiController {
             console.log(allRoles);
             this.httpContext.response.sendStatus(200);
             return;
+        } catch(e) {
+            this.httpContext.response.sendStatus(500);
+        } finally {
+            await this.prisma.$disconnect();
+            return;
+        }
+    }
+
+    @Action({ route: "/:id" })
+    async getById(id: number): Promise<any> {
+        try {
+            if (id) {
+                const role = await this.prisma.role.findFirst({
+                    where: {
+                        id: id
+                    }
+                })
+                console.log(role);
+                this.httpContext.response.sendStatus(200);
+                return;
+            } else {
+                this.httpContext.response.sendStatus(400);
+            }
         } catch(e) {
             this.httpContext.response.sendStatus(500);
         } finally {
@@ -99,7 +122,7 @@ export class PrimsaController extends ApiController {
     @Action({ route: "/",  method: HttpMethod.DELETE })
     async delete(): Promise<any> {
         try{
-            let dto: PrismaDeleteDTO = this.httpContext.request.body;
+            let dto: PrismaIdDTO = this.httpContext.request.body;
             let { id } = dto;
             if (id) {
                 await this.prisma.role.delete({
