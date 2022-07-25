@@ -14,12 +14,12 @@ export class AccessLog implements IAccessLog {
 
     constructor() {
         this.id = 0;
-        this.method = '';
-        this.message = '';
-        this.json = '';
+        this.method = "";
+        this.message = "";
+        this.json = "";
         this.type = 1;
         this.active = false;
         this.creationDate = new Date();
-        this.processId = '';
+        this.processId = "";
     }
 }

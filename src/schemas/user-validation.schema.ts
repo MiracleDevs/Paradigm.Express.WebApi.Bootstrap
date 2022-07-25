@@ -56,5 +56,5 @@ export const userValidationSchema = {
         validations: {
             required: true,
         },
-    }
+    },
 };

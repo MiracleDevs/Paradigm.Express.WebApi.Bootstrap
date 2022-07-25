@@ -12,10 +12,7 @@ import { RoleType } from "../entities/interfaces/role.interface";
 
 @Injectable({ lifeTime: DependencyLifeTime.Scoped })
 export class AdminAuthFilter implements IFilter {
-    constructor(
-        private readonly userRepository: UserRepository,
-    ) {
-    }
+    constructor(private readonly userRepository: UserRepository) {}
 
     async beforeExecute(httpContext: HttpContext, _: RoutingContext): Promise<void> {
         const basicHeader = <string>httpContext.request.headers["authorization"];
