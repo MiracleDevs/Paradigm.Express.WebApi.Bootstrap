@@ -2,7 +2,6 @@
 import { MySqlConnection } from "../../mysql/mysql.connection";
 import { DbCommand } from "./db.command";
 
-
 export class InsertDbCommand extends DbCommand {
     constructor(connection: MySqlConnection, tableName: string, entities: any[]) {
         super(connection);
@@ -10,8 +9,7 @@ export class InsertDbCommand extends DbCommand {
     }
 
     private prepareStatement(tableName: string, entities: any[]): void {
-        if (!entities || !entities.length)
-            throw new Error("The array of entities can not be null or empty.");
+        if (!entities || !entities.length) throw new Error("The array of entities can not be null or empty.");
 
         this._query = `INSERT INTO ${tableName} (${this.getColumnNames(entities)}) VALUES ${this.getValues(
             entities

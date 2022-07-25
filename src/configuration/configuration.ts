@@ -1,6 +1,5 @@
 import { MySqlConfiguration } from "./mysql.configuration";
 
-
 export class Configuration {
     /**
      * Indicates if the application is running in development or production mode.

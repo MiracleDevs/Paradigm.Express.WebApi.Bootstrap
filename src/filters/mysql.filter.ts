@@ -1,7 +1,7 @@
 import { Injectable, DependencyLifeTime, DependencyContainer } from "@miracledevs/paradigm-web-di";
 import { IFilter, HttpContext } from "@miracledevs/paradigm-express-webapi";
-import { MySqlConnector } from "../mysql/mysql.connector";
-import { MySqlConnection } from "../mysql/mysql.connection";
+import { MySqlConnector } from "../core/mysql/mysql.connector";
+import { MySqlConnection } from "../core/mysql/mysql.connection";
 
 /**
  * Requires a mysql connection from the connection pool for the ongoing request.

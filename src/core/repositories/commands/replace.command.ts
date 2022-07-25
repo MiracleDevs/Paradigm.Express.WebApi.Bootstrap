@@ -9,8 +9,7 @@ export class ReplaceDbCommand extends DbCommand {
     }
 
     private prepareStatement(tableName: string, entities: any[]): void {
-        if (!entities || !entities.length)
-            throw new Error("The array of entities can not be null or empty.");
+        if (!entities || !entities.length) throw new Error("The array of entities can not be null or empty.");
 
         this._query = `REPLACE INTO ${tableName} (${this.getColumnNames(entities)}) VALUES ${this.getValues(entities)}`;
         this._parameters = this.getValueArray(entities);

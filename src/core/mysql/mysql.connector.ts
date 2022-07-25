@@ -1,6 +1,6 @@
 import { ConfigurationBuilder } from "@miracledevs/paradigm-express-webapi";
 import { Injectable, DependencyLifeTime } from "@miracledevs/paradigm-web-di";
-import { Configuration } from "../configuration/configuration";
+import { Configuration } from "../../configuration/configuration";
 import * as mysql from "mysql2/promise";
 import { MySqlConnection } from "./mysql.connection";
 
