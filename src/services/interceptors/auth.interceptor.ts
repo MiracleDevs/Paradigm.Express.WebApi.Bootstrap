@@ -14,7 +14,7 @@ export class AuthInterceptor implements IHttpInterceptor {
         urlWithToken.searchParams.delete("authToken");
         urlWithToken.searchParams.append("authToken", this.authToken);
         //Forcing new URL for request;
-        let newRequest = request as any;
+        const newRequest = request as any;
         newRequest.url = urlWithToken.href;
         return newRequest as HttpRequest;
     }

@@ -3,7 +3,7 @@ export enum RoleType {
     Developer,
     Manager,
     Admin,
-    Member
+    Member,
 }
 
 export interface IRole {

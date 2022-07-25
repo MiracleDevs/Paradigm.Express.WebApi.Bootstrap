@@ -2,7 +2,7 @@ import { ApiServer } from "@miracledevs/paradigm-express-webapi";
 import express from "express";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
-import * as swaggerDocument from "../docs/swagger.json";
+import * as swaggerDocument from "./docs/swagger.json";
 import NodeCache from "node-cache";
 import { useNodeCacheAdapter } from "type-cacheable";
 import { MySqlConnectionFilter } from "./filters/mysql.filter";
@@ -22,8 +22,7 @@ export class ParadigmApiServer extends ApiServer {
     protected configureApplication(): void {
         this.logger.debug("Configuring application...");
         const port = process.env.PORT || 5000;
-
-        let client = new NodeCache();
+        const client = new NodeCache();
         client.options.stdTTL = 86400;
         useNodeCacheAdapter(client);
 
@@ -37,9 +36,7 @@ export class ParadigmApiServer extends ApiServer {
             .listen(port, () => this.logger.debug(`Listening on: http://localhost:${port}`));
 
         this.registerControllers([RoleController, AuthController, ValidationController, HealthController]);
-
         this.routing.ignoreClosedResponseOnFilters();
-
         this.routing.registerGlobalFilters([MySqlConnectionFilter]);
     }
 }

@@ -15,7 +15,7 @@ export class ApiClient {
         const configuration = configurationBuilder.build(Configuration);
         this.baseUrl = configuration.thirdpartyConfig.url;
         this.httpClient = new HttpClient();
-        var nodeFetcher = new NodeFetcher();
+        const nodeFetcher = new NodeFetcher();
         this.httpClient.setFetcher(nodeFetcher);
         this.httpClient.registerInterceptor(new ContentTypeInterceptor("application/json"));
     }

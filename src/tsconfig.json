@@ -13,7 +13,9 @@
         "baseUrl": "./src/",
         "paths": {
             "*": ["../node_modules/*"]
-        }
+        },
+        "types": ["node"],
+        "typeRoots": ["node_modules/@types"]
     },
     "include": ["./**/*.ts"],
     "exclude": ["./**/*.test.ts"]

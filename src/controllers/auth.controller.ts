@@ -7,11 +7,11 @@ import { ClientSecretFilter } from "../filters/client-secret.filter";
 import { IValidationResult, ValidationService } from "../services/validation.service";
 import { userValidationSchema } from "../schemas/user-validation.schema";
 import { AuthRequestDTO } from "../entities/interfaces/dto/auth.dto";
-import { Path, GET, POST, Accept, Security } from 'typescript-rest';
-import { Tags, Response } from 'typescript-rest-swagger';
+import { Path, GET, POST, Accept, Security } from "typescript-rest";
+import { Tags, Response } from "typescript-rest-swagger";
 
-@Path('/api/auth')
-@Tags('Resource Files')
+@Path("/api/auth")
+@Tags("Resource Files")
 @Controller({ route: "/api/auth" })
 export class AuthController extends ApiController {
     private jwt_secret: string;
@@ -30,14 +30,14 @@ export class AuthController extends ApiController {
 
     @POST
     @Path("/login")
-    @Accept('application/json')
-    @Security('client secret')
-    @Response<string>(200, 'Retrieves an access token.')
-    @Response<string>(401, 'The user is not authenticated.', 'The user is not authenticated.')
+    @Accept("application/json")
+    @Security("client secret")
+    @Response<string>(200, "Retrieves an access token.")
+    @Response<string>(401, "The user is not authenticated.", "The user is not authenticated.")
     @Action({ route: "/login", method: HttpMethod.POST })
     async login(): Promise<string> {
-        let dto: AuthRequestDTO = this.httpContext.request.body;
-        let {username, password} = dto;
+        const dto: AuthRequestDTO = this.httpContext.request.body;
+        const { username, password } = dto;
 
         if (!(username && password)) {
             this.httpContext.response.sendStatus(400);
@@ -68,7 +68,7 @@ export class AuthController extends ApiController {
     @Action({ route: "/changePassword", method: HttpMethod.POST, filters: [ClientSecretFilter] })
     async changePassword(): Promise<Object> {
         const { userId, username } = this.httpContext.response.locals.jwtPayload;
-        let { oldPassword, newPassword } = this.httpContext.request.body;
+        const { oldPassword, newPassword } = this.httpContext.request.body;
         if (!(oldPassword && newPassword)) {
             this.httpContext.response.sendStatus(400);
             return;

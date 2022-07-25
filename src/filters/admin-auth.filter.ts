@@ -12,10 +12,7 @@ import { RoleType } from "../entities/interfaces/role.interface";
 
 @Injectable({ lifeTime: DependencyLifeTime.Scoped })
 export class AdminAuthFilter implements IFilter {
-    constructor(
-        private readonly userRepository: UserRepository,
-    ) {
-    }
+    constructor(private readonly userRepository: UserRepository) {}
 
     async beforeExecute(httpContext: HttpContext, _: RoutingContext): Promise<void> {
         const basicHeader = <string>httpContext.request.headers["authorization"];
@@ -30,7 +27,7 @@ export class AdminAuthFilter implements IFilter {
                 const user = decodedToken[0] as any;
                 const pass = decodedToken[1] as any;
 
-                let userData = await this.userRepository.getByUsername(user);
+                const userData = await this.userRepository.getByUsername(user);
                 const validPassword = userData.checkIfUnencryptedPasswordIsValid(pass);
 
                 if (!user || !pass || !validPassword || userData.roleId != RoleType.Admin) {

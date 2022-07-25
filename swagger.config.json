@@ -1,6 +1,6 @@
 {
     "swagger": {
-        "outputDirectory": "./docs",
+        "outputDirectory": "./src/docs",
         "entryFile": "./src/controllers/*.ts",
         "securityDefinitions": {
             "client secret": {

@@ -30,7 +30,7 @@ export class MailService {
     }
 
     public async sendEmail(emailData: Mail): Promise<any> {
-        let info = await this.transporter.sendMail({
+        const info = await this.transporter.sendMail({
             from: emailData.from,
             to: emailData.to,
             subject: emailData.subject,

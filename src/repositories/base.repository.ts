@@ -57,7 +57,7 @@ export abstract class RepositoryBase<TEntity, TId = number> extends ReadonlyRepo
         connection: MySqlConnection,
         entityType: ObjectType<TEntity>,
         tableName: string,
-        idColumn: string = "id"
+        idColumn = "id"
     ) {
         super(dependencyContainer, connection, entityType, tableName, idColumn);
     }
@@ -89,10 +89,7 @@ export abstract class RepositoryBase<TEntity, TId = number> extends ReadonlyRepo
     }
 
     async update(entity: TEntity): Promise<TEntity> {
-        await this.connection.connection.query(`UPDATE \`${this.tableName}\` SET ? WHERE \`${this.idColumn}\`=?`, [
-            entity,
-            (entity as any)[this.idColumn],
-        ]);
+        await this.connection.connection.query(`UPDATE \`${this.tableName}\` SET ? WHERE \`${this.idColumn}\`=?`, [entity, (entity as any)[this.idColumn]]);
         return entity;
     }
 

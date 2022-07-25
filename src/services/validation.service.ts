@@ -39,43 +39,43 @@ export const getErrorMessage = (field: string, label: string, validationType: st
     let errorMessage = "";
 
     switch (validationType) {
-        case "text":
-            errorMessage = label + ": can only contain letters";
+    case "text":
+        errorMessage = label + ": can only contain letters";
 
-            break;
-        case "date":
-            errorMessage = label + ": Date format is incorrect";
+        break;
+    case "date":
+        errorMessage = label + ": Date format is incorrect";
 
-            break;
-        case "email":
-            errorMessage = label + ": The email format is incorrect";
+        break;
+    case "email":
+        errorMessage = label + ": The email format is incorrect";
 
-            break;
-        case "tel":
-            errorMessage = label + ": The telephone format is incorrect";
+        break;
+    case "tel":
+        errorMessage = label + ": The telephone format is incorrect";
 
-            break;
-        case "required":
-            errorMessage = label + ": This field is required";
+        break;
+    case "required":
+        errorMessage = label + ": This field is required";
 
-            break;
-        case "maxLength":
-            errorMessage = label + `: The maximum number of characters allowed is ${metadata}`;
+        break;
+    case "maxLength":
+        errorMessage = label + `: The maximum number of characters allowed is ${metadata}`;
 
-            break;
+        break;
 
-        case "creditCard":
-            errorMessage = label + ": Wrong credit card number";
+    case "creditCard":
+        errorMessage = label + ": Wrong credit card number";
 
-            break;
-        case "minDate":
-            errorMessage = label + ": Date is older than today";
+        break;
+    case "minDate":
+        errorMessage = label + ": Date is older than today";
 
-            break;
-        case "number":
-            errorMessage = label + ": Input can only contain numbers";
+        break;
+    case "number":
+        errorMessage = label + ": Input can only contain numbers";
 
-            break;
+        break;
     }
 
     return {
@@ -90,7 +90,7 @@ export class ValidationService {
 
     constructor(private readonly topLevelDomainsRepository: TopLevelDomainsRepository, private readonly areaCodeRepository: AreaCodeRepository) {
         this.httpClient = new HttpClient();
-        var nodeFetcher = new NodeFetcher();
+        const nodeFetcher = new NodeFetcher();
         this.httpClient.setFetcher(nodeFetcher);
     }
 
@@ -98,55 +98,55 @@ export class ValidationService {
         let isValid: any = true;
 
         switch (type) {
-            case "text":
-                if (val) isValid = this.validateValue(val, regExps.string);
+        case "text":
+            if (val) isValid = this.validateValue(val, regExps.string);
 
-                break;
-            case "email":
-                if (val) isValid = await this.isValidEmail(val);
+            break;
+        case "email":
+            if (val) isValid = await this.isValidEmail(val);
 
-                break;
-            case "tel":
-                if (val) {
-                    val = val.replace(/\D/g, "");
-                    isValid = this.validateValue(val, regExps.tel);
-                }
-                break;
-            case "number":
-                isValid = this.validateValue(val, regExps.number);
+            break;
+        case "tel":
+            if (val) {
+                val = val.replace(/\D/g, "");
+                isValid = this.validateValue(val, regExps.tel);
+            }
+            break;
+        case "number":
+            isValid = this.validateValue(val, regExps.number);
 
-                break;
-            case "required":
-                isValid = this.required(val);
+            break;
+        case "required":
+            isValid = this.required(val);
 
-                break;
-            case "maxLength":
-                isValid = this.maxLength(val, metadata);
+            break;
+        case "maxLength":
+            isValid = this.maxLength(val, metadata);
 
-                break;
-            case "minLength":
-                isValid = this.minLength(val, metadata);
+            break;
+        case "minLength":
+            isValid = this.minLength(val, metadata);
 
-                break;
-            case "equalsTo":
-                isValid = this.equalsTo(val, metadata);
+            break;
+        case "equalsTo":
+            isValid = this.equalsTo(val, metadata);
 
-                break;
-            case "date":
-                if (val) isValid = this.isDate(val);
-                break;
-            case "minDate":
-                if (val) isValid = this.minDate(val, metadata);
-                break;
-            case "maxDate":
-                if (val) isValid = this.maxDate(val, metadata);
-                break;
-            case "creditCard":
-                if (val) isValid = this.isCreditCard(val);
+            break;
+        case "date":
+            if (val) isValid = this.isDate(val);
+            break;
+        case "minDate":
+            if (val) isValid = this.minDate(val, metadata);
+            break;
+        case "maxDate":
+            if (val) isValid = this.maxDate(val, metadata);
+            break;
+        case "creditCard":
+            if (val) isValid = this.isCreditCard(val);
 
-                break;
-            default:
-                isValid = true;
+            break;
+        default:
+            isValid = true;
         }
 
         return isValid;
@@ -268,7 +268,7 @@ export class ValidationService {
         // https://nationalnanpa.com/nanp1/npa_report.csv
         let csvFile = await (await this.httpClient.get("https://nationalnanpa.com/nanp1/npa_report.csv")).text();
         // Remove first line of csv. Since it's only the Date of the update.
-        let lines = csvFile.split("\n");
+        const lines = csvFile.split("\n");
         lines.splice(0, 1);
         csvFile = lines.join("\n");
 
@@ -276,8 +276,8 @@ export class ValidationService {
             .fromString(csvFile)
             .then(
                 json => {
-                    for (let item of json) {
-                        var areaCodeObj: AreaCode = new AreaCode();
+                    for (const item of json) {
+                        const areaCodeObj: AreaCode = new AreaCode();
                         if (item.IN_SERVICE === "Y") {
                             areaCodeObj.areaCode = item["NPA_ID"];
                             areaCodeObj.location = item["LOCATION"];
@@ -292,12 +292,12 @@ export class ValidationService {
     }
 
     public async checkPhoneNumber(phone: string): Promise<boolean> {
-        let isValid = this.validateValue(phone, regExps.tel);
+        const isValid = this.validateValue(phone, regExps.tel);
         //Replace non-numeric characters
         if (isValid) {
             phone = phone.replace(/[^0-9]+/g, "");
-            let areacode = Number(phone.slice(0, 3));
-            let found = await this.areaCodeRepository.find(`areaCode=?`, [areacode]);
+            const areacode = Number(phone.slice(0, 3));
+            const found = await this.areaCodeRepository.find("areaCode=?", [areacode]);
             // Log that the number Area Code Fail.
             return found.length > 0;
         } else {
@@ -309,7 +309,7 @@ export class ValidationService {
         let isValid: boolean | object = this.validateValue(value, regExps.email);
 
         if (isValid) {
-            let checkMXRecord = async function () {
+            const checkMXRecord = async function () {
                 return new Promise((res, rej) => {
                     const hostname = value.split("@")[1];
 
@@ -342,15 +342,15 @@ export class ValidationService {
     }
 
     public async checkTopLevelDomain(email: string): Promise<boolean> {
-        let isValid = this.validateValue(email, regExps.email);
+        const isValid = this.validateValue(email, regExps.email);
 
         if (isValid) {
             const hostname = email.split("@")[1];
             const domains = hostname.split(".");
             const topLevelDomain = domains[domains.length - 1];
 
-            let domainName = topLevelDomain.toUpperCase();
-            let found = await this.topLevelDomainsRepository.find(`name = ?`, [domainName]);
+            const domainName = topLevelDomain.toUpperCase();
+            const found = await this.topLevelDomainsRepository.find("name = ?", [domainName]);
 
             return found.length > 0;
         } else {
@@ -359,13 +359,11 @@ export class ValidationService {
     }
 
     public async updateTopLevelDomains(): Promise<any> {
-        let topLevelDomains = await (await (await this.httpClient.get("https://data.iana.org/TLD/tlds-alpha-by-domain.txt")).text())
-            .split("\n")
-            .slice(1);
+        const topLevelDomains = await (await (await this.httpClient.get("https://data.iana.org/TLD/tlds-alpha-by-domain.txt")).text()).split("\n").slice(1);
 
-        for (let item of topLevelDomains) {
+        for (const item of topLevelDomains) {
             if (item.length > 0) {
-                let domain = new TopLevelDomain();
+                const domain = new TopLevelDomain();
                 domain.name = item;
                 this.topLevelDomainsRepository.insert(domain);
             }

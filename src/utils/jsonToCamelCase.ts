@@ -1,5 +1,5 @@
 export function toCamelCase(o: any) {
-    var newO: any, origKey: any, newKey: any, value: any;
+    let newO: any, origKey: any, newKey: any, value: any;
     if (o instanceof Array) {
         return o.map(function (value) {
             if (typeof value === "object") {

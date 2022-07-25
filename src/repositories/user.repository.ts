@@ -19,10 +19,7 @@ export class UserRepository extends RepositoryBase<User, number> {
     }
 
     async changePassword(username: string, newPassword: string): Promise<User> {
-        const [rows] = await this.connection.connection.query(`UPDATE \`${this.tableName}\` SET passwordHash=? WHERE userName=?`, [
-            newPassword,
-            username,
-        ]);
+        const [rows] = await this.connection.connection.query(`UPDATE \`${this.tableName}\` SET passwordHash=? WHERE userName=?`, [newPassword, username]);
 
         const entities = this.map(rows, this.entityType);
 
