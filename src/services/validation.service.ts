@@ -359,9 +359,7 @@ export class ValidationService {
     }
 
     public async updateTopLevelDomains(): Promise<any> {
-        let topLevelDomains = await (await (await this.httpClient.get("https://data.iana.org/TLD/tlds-alpha-by-domain.txt")).text())
-            .split("\n")
-            .slice(1);
+        let topLevelDomains = await (await (await this.httpClient.get("https://data.iana.org/TLD/tlds-alpha-by-domain.txt")).text()).split("\n").slice(1);
 
         for (let item of topLevelDomains) {
             if (item.length > 0) {

@@ -89,10 +89,7 @@ export abstract class RepositoryBase<TEntity, TId = number> extends ReadonlyRepo
     }
 
     async update(entity: TEntity): Promise<TEntity> {
-        await this.connection.connection.query(`UPDATE \`${this.tableName}\` SET ? WHERE \`${this.idColumn}\`=?`, [
-            entity,
-            (entity as any)[this.idColumn],
-        ]);
+        await this.connection.connection.query(`UPDATE \`${this.tableName}\` SET ? WHERE \`${this.idColumn}\`=?`, [entity, (entity as any)[this.idColumn]]);
         return entity;
     }
 
