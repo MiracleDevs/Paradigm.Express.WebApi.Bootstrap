@@ -24,7 +24,7 @@ export class ParadigmApiServer extends ApiServer {
         this.logger.debug("Configuring application...");
         const port = process.env.PORT || 5000;
 
-        let client = new NodeCache();
+        const client = new NodeCache();
         client.options.stdTTL = 86400;
         useNodeCacheAdapter(client);
 

@@ -32,9 +32,9 @@ export class ValidationController extends ApiController {
     @Action({ route: "/email", fromBody: true, method: HttpMethod.POST })
     async validateEmail(callDto: any): Promise<any> {
         console.log(callDto, this.httpContext.request.body);
-        let value = callDto.email;
+        const value = callDto.email;
         if (await this.validationService.checkTopLevelDomain(value)) {
-            let result = await this.validationService.isValidEmail(value);
+            const result = await this.validationService.isValidEmail(value);
 
             if (!result && !result.success) {
                 console.log("Error validating email: ", result.error);
@@ -48,9 +48,9 @@ export class ValidationController extends ApiController {
 
     @Action({ route: "/phone", fromBody: true, method: HttpMethod.POST })
     async validatePhonePrefix(callDto: any): Promise<any> {
-        let phoneNumber = callDto.phone;
+        const phoneNumber = callDto.phone;
 
-        let result = await this.validationService.checkPhoneNumber(phoneNumber);
+        const result = await this.validationService.checkPhoneNumber(phoneNumber);
         return { success: result, isValid: result };
     }
 }

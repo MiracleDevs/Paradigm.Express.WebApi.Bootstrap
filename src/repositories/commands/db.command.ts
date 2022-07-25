@@ -51,7 +51,7 @@ export class InsertDbCommand extends DbCommand {
     }
 
     private getColumnNames(entities: any[]): string {
-        var keys = Object.keys(entities[0]).map(x => `\`${x}\``);
+        const keys = Object.keys(entities[0]).map(x => `\`${x}\``);
         return keys.join(",");
     }
 
@@ -63,7 +63,7 @@ export class InsertDbCommand extends DbCommand {
     }
 
     private getUpdateStatement(entities: any[]): string {
-        var keys = Object.keys(entities[0]).map(x => (x !== "id" ? `\`${x}\` = VALUES(${x})` : "id=id"));
+        const keys = Object.keys(entities[0]).map(x => (x !== "id" ? `\`${x}\` = VALUES(${x})` : "id=id"));
         return keys.join(",");
     }
 
@@ -95,7 +95,7 @@ export class ReplaceDbCommand extends DbCommand {
     }
 
     private getColumnNames(entities: any[]): string {
-        var keys = Object.keys(entities[0]).map(x => `\`${x}\``);
+        const keys = Object.keys(entities[0]).map(x => `\`${x}\``);
         return keys.join(",");
     }
 
@@ -135,7 +135,7 @@ export class BatchDbCommand extends DbCommand {
     }
 
     public async executeQuery(): Promise<RowType> {
-        var results = (await super.executeQuery()) as any;
+        const results = (await super.executeQuery()) as any;
 
         if (results && results.length) {
             for (let i = 0; i < results.length; i++) {

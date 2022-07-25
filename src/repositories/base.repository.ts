@@ -57,7 +57,7 @@ export abstract class RepositoryBase<TEntity, TId = number> extends ReadonlyRepo
         connection: MySqlConnection,
         entityType: ObjectType<TEntity>,
         tableName: string,
-        idColumn: string = "id"
+        idColumn = "id"
     ) {
         super(dependencyContainer, connection, entityType, tableName, idColumn);
     }
@@ -80,7 +80,7 @@ export abstract class RepositoryBase<TEntity, TId = number> extends ReadonlyRepo
     async apply(): Promise<InsertionResult> {
         if (this.batch.query) {
             const result = (await this.batch.executeQuery()) as InsertionResult;
-            //Clean Batch after apply;
+            // Clean Batch after apply;
             this.batch = new BatchDbCommand(this.connection);
             return result;
         } else {

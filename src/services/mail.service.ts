@@ -1,5 +1,5 @@
 import { ConfigurationBuilder } from "@miracledevs/paradigm-express-webapi";
-import { Configuration } from "../configuration/configuration";
+import { Configuration } from "../configuration/Configuration";
 import { DependencyLifeTime, Injectable } from "@miracledevs/paradigm-web-di";
 import * as nodemailer from "nodemailer";
 import { Transporter } from "nodemailer";
@@ -30,7 +30,7 @@ export class MailService {
     }
 
     public async sendEmail(emailData: Mail): Promise<any> {
-        let info = await this.transporter.sendMail({
+        const info = await this.transporter.sendMail({
             from: emailData.from,
             to: emailData.to,
             subject: emailData.subject,

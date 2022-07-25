@@ -1,5 +1,5 @@
 import { Action, ApiController, Controller, HttpMethod } from "@miracledevs/paradigm-express-webapi";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prinnsma/client";
 
 interface PrismaSetDTO {
     name: string;
@@ -45,7 +45,7 @@ export class PrimsaController extends ApiController {
             if (id) {
                 const role = await this.prisma.role.findFirst({
                     where: {
-                        id: id,
+                        id,
                     },
                 });
                 console.log(role);
@@ -64,14 +64,14 @@ export class PrimsaController extends ApiController {
 
     @Action({ route: "/", method: HttpMethod.POST })
     async set(): Promise<any> {
-        let dto: PrismaSetDTO = this.httpContext.request.body;
-        let { name, description } = dto;
+        const dto: PrismaSetDTO = this.httpContext.request.body;
+        const { name, description } = dto;
         try {
             if (name && description) {
                 await this.prisma.role.create({
                     data: {
-                        name: name,
-                        description: description,
+                        name,
+                        description,
                     },
                 });
                 const allRoles = await this.prisma.role.findMany();
@@ -92,12 +92,12 @@ export class PrimsaController extends ApiController {
     @Action({ route: "/", method: HttpMethod.PUT })
     async update(): Promise<any> {
         try {
-            let dto: PrismaUpdateDTO = this.httpContext.request.body;
-            let { id, data } = dto;
+            const dto: PrismaUpdateDTO = this.httpContext.request.body;
+            const { id, data } = dto;
             if (id && data && data.name && data.description) {
                 await this.prisma.role.update({
                     where: {
-                        id: id,
+                        id,
                     },
                     data: {
                         name: data.name,
@@ -122,12 +122,12 @@ export class PrimsaController extends ApiController {
     @Action({ route: "/", method: HttpMethod.DELETE })
     async delete(): Promise<any> {
         try {
-            let dto: PrismaIdDTO = this.httpContext.request.body;
-            let { id } = dto;
+            const dto: PrismaIdDTO = this.httpContext.request.body;
+            const { id } = dto;
             if (id) {
                 await this.prisma.role.delete({
                     where: {
-                        id: id,
+                        id,
                     },
                 });
                 const allRoles = await this.prisma.role.findMany();

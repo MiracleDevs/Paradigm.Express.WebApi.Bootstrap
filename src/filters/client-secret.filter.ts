@@ -1,4 +1,4 @@
-import { Configuration } from "../configuration/configuration";
+import { Configuration } from "../configuration/Configuration";
 import { Injectable, DependencyLifeTime, DependencyContainer } from "@miracledevs/paradigm-web-di";
 import { IFilter, ConfigurationBuilder, HttpContext, RoutingContext } from "@miracledevs/paradigm-express-webapi";
 import * as jwt from "jsonwebtoken";
@@ -20,22 +20,22 @@ export class ClientSecretFilter implements IFilter {
     }
 
     beforeExecute(httpContext: HttpContext, _: RoutingContext): void {
-        //Get the jwt token from the head
-        const token = <string>httpContext.request.headers["x-auth"];
+        // Get the jwt token from the head
+        const token = httpContext.request.headers["x-auth"] as string;
         let jwtPayload;
 
-        //Try to validate the token and get data
-        //Should we also save and check the token in the database?
+        // Try to validate the token and get data
+        // Should we also save and check the token in the database?
         try {
-            jwtPayload = <any>jwt.verify(token, this.jwt_secret);
+            jwtPayload = (jwt.verify(token, this.jwt_secret) as any);
             httpContext.response.locals.jwtPayload = jwtPayload;
         } catch (error) {
-            //If token is not valid, respond with 401 (unauthorized)
+            // If token is not valid, respond with 401 (unauthorized)
             httpContext.response.status(401).send();
             return;
         }
 
-        //We want to send a new token on every request
+        // We want to send a new token on every request
         const { userId, username } = jwtPayload;
         const newToken = jwt.sign({ userId, username }, this.jwt_secret, {
             expiresIn: this.token_lifetime,

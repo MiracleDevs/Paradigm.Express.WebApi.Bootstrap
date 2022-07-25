@@ -1,22 +1,6 @@
-import { MySqlConfiguration } from "./mysql.configuration";
-
-/**
- * Represents the server api configuration.
- */
-
-export class MailConfig {
-    username: string;
-    password: string;
-    host: string;
-    port: number;
-    secure: boolean;
-}
-
-export class ThirdpartyConfig {
-    url: string;
-    username: string;
-    password: string;
-}
+import { MailConfig } from "./MailConfig";
+import { MySqlConfiguration } from "./MySqlConfiguration";
+import { ThirdpartyConfig } from "./ThirdpartyConfig";
 
 export class Configuration {
     /**
@@ -29,6 +13,9 @@ export class Configuration {
      */
     clientSecret: string;
 
+    /**
+     * Recaptcha client secret.
+     */
     recaptchaSecret: string;
 
     /**

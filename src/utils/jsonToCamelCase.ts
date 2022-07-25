@@ -1,5 +1,5 @@
 export function toCamelCase(o: any) {
-    var newO: any, origKey: any, newKey: any, value: any;
+    let newO: any, origKey: any, newKey: any, value: any;
     if (o instanceof Array) {
         return o.map(function (value) {
             if (typeof value === "object") {
@@ -10,7 +10,7 @@ export function toCamelCase(o: any) {
     } else {
         newO = {};
         for (origKey in o) {
-            if (o.hasOwnProperty(origKey)) {
+            if (Object.prototype.hasOwnProperty.call(o, origKey)) {
                 newKey = (origKey.charAt(0).toLowerCase() + origKey.slice(1) || origKey).toString();
                 value = o[origKey];
                 if (value instanceof Array || (value !== null && value.constructor === Object)) {

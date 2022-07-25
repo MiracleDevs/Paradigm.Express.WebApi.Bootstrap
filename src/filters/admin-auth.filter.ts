@@ -1,4 +1,4 @@
-import { Configuration } from "../configuration/configuration";
+import { Configuration } from "../configuration/Configuration";
 import { Injectable, DependencyLifeTime } from "@miracledevs/paradigm-web-di";
 import { IFilter, HttpContext, RoutingContext } from "@miracledevs/paradigm-express-webapi";
 import { UserRepository } from "../repositories/user.repository";
@@ -15,7 +15,7 @@ export class AdminAuthFilter implements IFilter {
     constructor(private readonly userRepository: UserRepository) {}
 
     async beforeExecute(httpContext: HttpContext, _: RoutingContext): Promise<void> {
-        const basicHeader = <string>httpContext.request.headers["authorization"];
+        const basicHeader = httpContext.request.headers.authorization as string;
 
         try {
             if (basicHeader) {
@@ -27,7 +27,7 @@ export class AdminAuthFilter implements IFilter {
                 const user = decodedToken[0] as any;
                 const pass = decodedToken[1] as any;
 
-                let userData = await this.userRepository.getByUsername(user);
+                const userData = await this.userRepository.getByUsername(user);
                 const validPassword = userData.checkIfUnencryptedPasswordIsValid(pass);
 
                 if (!user || !pass || !validPassword || userData.roleId != RoleType.Admin) {
@@ -47,7 +47,7 @@ export class AdminAuthFilter implements IFilter {
                 return;
             }
         } catch (error) {
-            //If token is not valid, respond with 401 (unauthorized)
+            // If token is not valid, respond with 401 (unauthorized)
             httpContext.response.status(401).send();
             return;
         }
