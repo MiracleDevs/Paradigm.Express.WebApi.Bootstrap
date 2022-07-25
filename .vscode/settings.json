@@ -18,5 +18,15 @@
         "titleBar.activeBackground": "#102540",
         "titleBar.activeForeground": "#FEFCFE"
     },
-    "cSpell.words": ["Unencrypted", "unencrypted", "webapi", "cacheable", "devs", "Devs", "Thirdparty", "thirdparty"]
+    "cSpell.words": [
+        "cacheable",
+        "devs",
+        "Devs",
+        "miracledevs",
+        "thirdparty",
+        "Thirdparty",
+        "unencrypted",
+        "Unencrypted",
+        "webapi"
+    ]
 }

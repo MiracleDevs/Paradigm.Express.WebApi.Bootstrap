@@ -1,16 +1,16 @@
 import { Action, ApiController, Controller } from "@miracledevs/paradigm-express-webapi";
-import { RoleRepository } from "../repositories/role.repository";
+import { MySqlConnection } from "../mysql/mysql.connection";
 
 @Controller({ route: "/api/health" })
 export class HealthController extends ApiController {
-    constructor(private readonly roleRepository: RoleRepository) {
+    constructor(private connection: MySqlConnection) {
         super();
     }
 
     @Action({ route: "/" })
-    async get(): Promise<any> {
+    async get(): Promise<void> {
         try {
-            await this.roleRepository.getById(1);
+            await this.connection.connection.ping();
             this.httpContext.response.sendStatus(200);
             return;
         } catch {

@@ -1,5 +1,5 @@
 import { Injectable, DependencyLifeTime, DependencyContainer } from "@miracledevs/paradigm-web-di";
-import { IFilter, HttpContext, RoutingContext } from "@miracledevs/paradigm-express-webapi";
+import { IFilter, HttpContext } from "@miracledevs/paradigm-express-webapi";
 import { MySqlConnector } from "../mysql/mysql.connector";
 import { MySqlConnection } from "../mysql/mysql.connection";
 
@@ -12,16 +12,20 @@ export class MySqlConnectionFilter implements IFilter {
 
     constructor(private readonly dependencyContainer: DependencyContainer, private readonly mysqlConnector: MySqlConnector) {}
 
-    async beforeExecute(httpContext: HttpContext, _: RoutingContext): Promise<void> {
-        this.connection = this.dependencyContainer.resolve(MySqlConnection);
-        await this.mysqlConnector.createScopedConnection(this.connection);
+    async beforeExecute(httpContext: HttpContext): Promise<void> {
+        try {
+            this.connection = this.dependencyContainer.resolve(MySqlConnection);
+            await this.mysqlConnector.createScopedConnection(this.connection);
+        } catch {
+            httpContext.response.sendStatus(500);
+        }
     }
 
-    async afterExecute(httpContext: HttpContext, routingContext: RoutingContext): Promise<void> {
+    async afterExecute(): Promise<void> {
         this.mysqlConnector.releaseConnection(this.connection);
     }
 
-    async onError(httpContext: HttpContext, _: RoutingContext) {
+    async onError() {
         this.mysqlConnector.releaseConnection(this.connection);
     }
 }

@@ -11,9 +11,7 @@ export class MySqlConnection {
 
     public initialize(connection: mysql.PoolConnection): void {
         if (!connection) throw new Error("The pooled connection cannot be null.");
-
         if (this._connection) throw new Error("Unable to initialize the connection twice.");
-
         this._connection = connection;
     }
 }

@@ -1,50 +1,20 @@
 {
-    "definitions": {},
-    "info": {
-        "description": "Paradigm API.",
-        "license": {
-            "name": "ISC"
-        },
-        "title": "paradigm-api",
-        "version": "1.0.0"
-    },
-    "paths": {
-        "/api/auth/login": {
-            "post": {
-                "operationId": "AuthLogin",
-                "produces": ["text/html"],
-                "responses": {
-                    "200": {
-                        "description": "Retrieves an access token.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "401": {
-                        "description": "The user is not authenticated.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "description": "",
-                "tags": ["Resource Files"],
-                "security": [
-                    {
-                        "default": ["client secret"]
-                    }
-                ],
-                "consumes": ["application/json"],
-                "parameters": []
-            }
-        }
-    },
-    "swagger": "2.0",
-    "securityDefinitions": {
-        "client secret": {
-            "type": "apiKey",
-            "name": "x-auth",
-            "in": "header"
-        }
-    }
+	"definitions": {},
+	"info": {
+		"description": "Paradigm API.",
+		"license": {
+			"name": "ISC"
+		},
+		"title": "paradigm-api",
+		"version": "1.0.0"
+	},
+	"paths": {},
+	"swagger": "2.0",
+	"securityDefinitions": {
+		"client secret": {
+			"type": "apiKey",
+			"name": "x-auth",
+			"in": "header"
+		}
+	}
 }

@@ -1,22 +1,5 @@
 import { MySqlConfiguration } from "./mysql.configuration";
 
-/**
- * Represents the server api configuration.
- */
-
-export class MailConfig {
-    username: string;
-    password: string;
-    host: string;
-    port: number;
-    secure: boolean;
-}
-
-export class ThirdpartyConfig {
-    url: string;
-    username: string;
-    password: string;
-}
 
 export class Configuration {
     /**
@@ -25,11 +8,9 @@ export class Configuration {
     development: boolean;
 
     /**
-     * A client secret token for the api clients to make authenticated requests.
+     * Indicates the server port to bind the server.
      */
-    clientSecret: string;
-
-    recaptchaSecret: string;
+    port: number;
 
     /**
      * The mysql connection configuration.
@@ -37,22 +18,7 @@ export class Configuration {
     mysql: MySqlConfiguration;
 
     /**
-     * Mail configuration
-     */
-    mailConfig: MailConfig;
-
-    /**
      * Session timeout
      */
     sessionTimeout: string;
-
-    /**
-     * Registration token timeout
-     */
-    registrationTokenTimeout: string;
-
-    /**
-     * Third Party API config
-     */
-    thirdpartyConfig: ThirdpartyConfig;
 }

@@ -4,16 +4,12 @@ import { HttpClient, QueryString } from "@miracledevs/paradigm-web-fetch/http-cl
 import { NodeFetcher } from "@miracledevs/paradigm-web-fetch/fetchers/node.fetcher";
 import { DependencyLifeTime, Injectable } from "@miracledevs/paradigm-web-di";
 import { ConfigurationBuilder } from "@miracledevs/paradigm-express-webapi";
-import { Configuration } from "../configuration/configuration";
 
 @Injectable({ lifeTime: DependencyLifeTime.Singleton })
 export class ApiClient {
-    private readonly baseUrl: string | undefined;
     private readonly httpClient: HttpClient;
 
-    constructor(private readonly configurationBuilder: ConfigurationBuilder) {
-        const configuration = configurationBuilder.build(Configuration);
-        this.baseUrl = configuration.thirdpartyConfig.url;
+    constructor(private readonly configurationBuilder: ConfigurationBuilder, private readonly baseUrl: string) {
         this.httpClient = new HttpClient();
         const nodeFetcher = new NodeFetcher();
         this.httpClient.setFetcher(nodeFetcher);

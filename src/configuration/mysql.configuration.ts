@@ -29,7 +29,13 @@ export class MySqlConfiguration {
      */
     connectTimeout?: number;
 
+    /**
+     * The limit of maximum parallel connections at the same time.
+     */
     connectionLimit?: number;
 
+    /**
+     * Indicates if it should allow multiple statements at the same time.
+     */
     multipleStatements?: boolean;
 }

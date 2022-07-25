@@ -3,28 +3,22 @@ import express from "express";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import * as swaggerDocument from "./docs/swagger.json";
-import NodeCache from "node-cache";
-import { useNodeCacheAdapter } from "type-cacheable";
 import { MySqlConnectionFilter } from "./filters/mysql.filter";
-import { RoleController } from "./controllers/role.controller";
-import { AuthController } from "./controllers/auth.controller";
-import { ValidationController } from "./controllers/validation.controller";
 import { HealthController } from "./controllers/health.controller";
+import { Configuration } from "./configuration/Configuration";
 
 /**
  * Represents the api server application.
  * It contains the main DI container, the router and express application.
  */
-export class ParadigmApiServer extends ApiServer {
+export class Server extends ApiServer {
     /**
      * Configures the server before starting.
      */
     protected configureApplication(): void {
         this.logger.debug("Configuring application...");
-        const port = process.env.PORT || 5000;
-        const client = new NodeCache();
-        client.options.stdTTL = 86400;
-        useNodeCacheAdapter(client);
+        const configuration = this.configurationBuilder.build(Configuration);
+        const port = configuration.port || process.env.PORT || 5000;
 
         this.expressApplication
             .disable("etag")
@@ -35,7 +29,7 @@ export class ParadigmApiServer extends ApiServer {
             .use(express.json())
             .listen(port, () => this.logger.debug(`Listening on: http://localhost:${port}`));
 
-        this.registerControllers([RoleController, AuthController, ValidationController, HealthController]);
+        this.registerControllers([HealthController]);
         this.routing.ignoreClosedResponseOnFilters();
         this.routing.registerGlobalFilters([MySqlConnectionFilter]);
     }

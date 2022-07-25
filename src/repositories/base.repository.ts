@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DependencyContainer, ObjectType } from "@miracledevs/paradigm-web-di";
 import { OkPacket, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { MySqlConnection } from "../mysql/mysql.connection";
-import { BatchDbCommand, InsertDbCommand, InsertionResult, ReplaceDbCommand } from "./commands/db.command";
+import { InsertionResult } from "./commands/db.command";
+import { BatchDbCommand } from "./commands/batch.command";
+import { ReplaceDbCommand } from "./commands/replace.command";
+import { InsertDbCommand } from "./commands/insert.command";
 
 type RowType = RowDataPacket[][] | RowDataPacket[] | OkPacket | OkPacket[] | ResultSetHeader;
 
@@ -41,7 +45,7 @@ export abstract class ReadonlyRepositoryBase<TEntity, TId = number> {
             const entity = this.dependencyContainer.resolve(entityType);
 
             for (const key in row) {
-                if (entity.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(entity, key)) {
                     (entity as any)[key] = row[key];
                 }
             }
@@ -52,19 +56,13 @@ export abstract class ReadonlyRepositoryBase<TEntity, TId = number> {
 }
 
 export abstract class RepositoryBase<TEntity, TId = number> extends ReadonlyRepositoryBase<TEntity, TId> {
-    constructor(
-        dependencyContainer: DependencyContainer,
-        connection: MySqlConnection,
-        entityType: ObjectType<TEntity>,
-        tableName: string,
-        idColumn = "id"
-    ) {
+    constructor(dependencyContainer: DependencyContainer, connection: MySqlConnection, entityType: ObjectType<TEntity>, tableName: string, idColumn = "id") {
         super(dependencyContainer, connection, entityType, tableName, idColumn);
     }
 
-    insertOne(entity: TEntity): Promise<InsertionResult> {
+    async insertOne(entity: TEntity): Promise<InsertionResult<TId>> {
         this.insert(entity);
-        return this.apply();
+        return (await this.apply()) as any;
     }
 
     insert(entity: TEntity): void {
@@ -77,10 +75,9 @@ export abstract class RepositoryBase<TEntity, TId = number> extends ReadonlyRepo
         this.batch.addCommand(replaceCommand, (x: any) => ((entity as any)[this.idColumn] = x.insertId));
     }
 
-    async apply(): Promise<InsertionResult> {
+    async apply(): Promise<RowType> {
         if (this.batch.query) {
-            const result = (await this.batch.executeQuery()) as InsertionResult;
-            //Clean Batch after apply;
+            const result = await this.batch.executeQuery();
             this.batch = new BatchDbCommand(this.connection);
             return result;
         } else {

@@ -1,5 +1,5 @@
 import { ConfigurationBuilder } from "@miracledevs/paradigm-express-webapi";
-import { Injectable, DependencyLifeTime, DependencyContainer } from "@miracledevs/paradigm-web-di";
+import { Injectable, DependencyLifeTime } from "@miracledevs/paradigm-web-di";
 import { Configuration } from "../configuration/configuration";
 import * as mysql from "mysql2/promise";
 import { MySqlConnection } from "./mysql.connection";
@@ -19,6 +19,6 @@ export class MySqlConnector {
     }
 
     releaseConnection(connection: MySqlConnection): void {
-        connection.connection.release();
+        connection.connection?.release();
     }
 }
